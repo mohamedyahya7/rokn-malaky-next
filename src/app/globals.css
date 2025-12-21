@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #2563eb;
+  --color-secondary: #1e40af;
+  --color-accent: #0ea5e9;
+  --color-bg-main: #f8fafc;
+  --color-card-bg: #ffffff;
+  --font-cairo: var(--font-cairo);
+}
+
+/* Custom Utilities if needed, but Tailwind v4 style @theme covers most. 
+   If v3 is installed, the syntax is different. 
+   'create-next-app' with 'tailwindcss' likely installs v3.4+ or v4. 
+   The 'app-tw' template usually uses standard v3 directives.
+   I will stick to standard v3 directives for safety as v4 is new.
+*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #2563eb;
+  --secondary: #1e40af;
+  --accent: #0ea5e9;
+  --foreground: #1e293b;
+  --background: #f8fafc;
+
+  --radius: 16px;
+}
+
+body {
+  font-family: var(--font-cairo), sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Utility to hide/show based on breakpoints if needed */
+
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 45deg;
+  inherits: false;
+}
+
+/* Logo Loop Animations */
+@keyframes logo-scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes logo-scroll-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.logo-scroll-left {
+  animation: logo-scroll-left linear infinite;
+}
+
+.logo-scroll-right {
+  animation: logo-scroll-right linear infinite;
+}
