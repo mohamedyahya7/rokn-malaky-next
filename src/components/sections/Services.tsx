@@ -1,9 +1,13 @@
+'use client';
+
 import { siteData } from '@/lib/data';
-import { FaUsers, FaCheckCircle, FaWhatsapp } from 'react-icons/fa';
+import { FaUsers, FaCheckCircle, FaWhatsapp, FaChevronDown } from 'react-icons/fa';
 import MagicButton from '@/components/ui/MagicButton';
+import { useAccordion } from '@/hooks/useAccordion';
 
 export default function Services() {
   const { services } = siteData;
+  const { toggle, isOpen } = useAccordion(null); // All closed by default on mobile
 
   // Simple function to format WhatsApp
   const formatWhatsApp = (num: string) => `https://wa.me/2${num}`;
@@ -18,69 +22,93 @@ export default function Services() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {services.map((service) => (
-            <article 
-              key={service.id}
-              className="group border-x-1 bg-[var(--card-bg)] rounded-[var(--radius)] p-4 shadow-[var(--shadow)] border-y-[6px] border-[var(--primary)] flex flex-col hover:scale-105 hover:translate-y-2 hover:shadow-xl transition-all duration-300 relative overflow-hidden"
-            >
-              {/* ID Badge */}
-              <div className="absolute -top-3 -right-3 w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center text-xl font-bold text-[var(--primary)] opacity-50 z-0">
-                {service.id}
-              </div>
-
-              {/* Content */}
-              <div className="relative z-10 flex-grow">
-                <div className="min-h-[180px] flex flex-col items-start justify-between">
-
-                <h3 className="text-xl font-bold text-[var(--secondary)] mt-4 mb-2">
-                  {service.title}
-                </h3>
-
-                {service.target_audience && (
-                  <div className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-bold mb-4">
-                    <FaUsers size={14} />
-                    {service.target_audience}
-                  </div>
-                )}
-                <p className="text-slate-600 text-sm leading-relaxed m-y-auto  mb-4 min-h-[60px]">
-                  {service.description}
-                </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-4">
+          {services.map((service, index) => {
+            const active = isOpen(index);
+            
+            return (
+              <article 
+                key={service.id}
+                className={`group border-x-1 bg-[var(--card-bg)] rounded-[var(--radius)] shadow-[var(--shadow)] border-y-[3px] border-[var(--primary)] hover:border-y-[5px] flex flex-col transition-all duration-300 relative overflow-hidden ${
+                  active ? 'shadow-xl' : 'hover:scale-[1.02] md:hover:scale-105 md:hover:translate-y-2'
+                }`}
+              >
+                {/* ID Badge - Hidden on mobile accordion for cleaner look or kept as background */}
+                <div className="absolute -top-3 -right-3 w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center text-xl font-bold text-[var(--primary)] opacity-30 z-0">
+                  {service.id}
                 </div>
 
-
-                <h4 className="text-sm font-bold text-[var(--secondary)] mb-3 pb-2 border-b border-slate-100 inline-block">
-                  المميزات:
-                </h4>
-                <ul className="space-y-2 mb-6 flex flex-col items-start justify-between min-h-[240px] flex-wrap">
-                  {service.features.map((feature, idx) => (
-                    <li key={idx} className="text-sm text-slate-600 flex items-start gap-2">
-                      <FaCheckCircle className="text-green-500 shrink-0 mt-0.5" size={14} />
-                      {feature}
-                    </li>
-                  ))}
-                  {/* {service.features.length > 9 && (
-                    <li className="text-xs text-slate-400 pt-1">+ والمزيد</li>
-                  )} */}
-                </ul>
-              </div>
-
-              {/* Action */}
-              <div className="mt-auto pt-4 flex justify-center">
-                <MagicButton 
-                  href={formatWhatsApp(service.contact_number)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  animationTrigger="group-hover"
+                {/* Mobile Trigger / Header */}
+                <div 
+                  onClick={() => {
+                    if (window.innerWidth < 768) toggle(index);
+                  }}
+                  className="relative z-10 p-6 md:p-4 cursor-pointer md:cursor-default flex items-center justify-between gap-4"
                 >
-                  <span style={{ fontFamily: 'var(--font-cairo)'}}>تـــــواصل معنا</span>
-                  <FaWhatsapp size={28} color='#25D366' />
-                </MagicButton>
-              </div>
-            </article>
-          ))}
+                  <div className="flex-grow min-h-[60px]">
+                    <h3 className="text-xl font-bold text-[var(--secondary)] mb-1">
+                      {service.title}
+                    </h3>
+                    {service.target_audience && (
+                      <div className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-[10px] font-bold">
+                        <FaUsers size={12} />
+                        {service.target_audience}
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* Accordion Icon - Only visible on mobile */}
+                  <div className="md:hidden">
+                    <FaChevronDown 
+                      className={`text-[var(--primary)] transition-transform duration-300 ${active ? 'rotate-180' : ''}`} 
+                      size={18} 
+                    />
+                  </div>
+                </div>
+
+                {/* Collapsible Content */}
+                <div 
+                  className={`relative z-10 transition-all flex flex-col items-start justify-between duration-300 ease-in-out md:block overflow-hidden ${
+                    active ? 'max-h-[1000px] opacity-100 flex flex-col items-start justify-between' : 'max-h-0 md:max-h-none opacity-0 md:opacity-100'
+                  }`}
+                >
+                  <div className="px-6 pb-6 md:px-4 md:pb-4  h-full">
+                    <p className="text-slate-600 text-sm leading-relaxed  mb-6 md:min-h-[60px]">
+                      {service.description}
+                    </p>
+
+                    <h4 className="text-sm font-bold text-[var(--secondary)] mb-3 pb-2 border-b border-slate-100 inline-block w-fit">
+                      المميزات:
+                    </h4>
+                    <ul className="space-y-2 mb-6 md:min-h-[240px] items-start justify-between flex flex-col flex-wrap">
+                      {service.features.map((feature, idx) => (
+                        <li key={idx} className="text-sm text-slate-600 flex items-start gap-2">
+                          <FaCheckCircle className="text-green-500 shrink-0 mt-0.5" size={14} />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+
+                    {/* Action */}
+                    <div className="mb-0 pt-4  flex justify-center">
+                      <MagicButton 
+                        href={formatWhatsApp(service.contact_number)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        animationTrigger="group-hover"
+                      >
+                        <span style={{ fontFamily: 'var(--font-cairo)'}}>تـــــواصل معنا</span>
+                        <FaWhatsapp size={28} color='#25D366' />
+                      </MagicButton>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>
   );
 }
+

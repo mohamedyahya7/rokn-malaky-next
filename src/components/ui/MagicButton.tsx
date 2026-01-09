@@ -21,7 +21,10 @@ const MagicButton: React.FC<MagicButtonProps> = ({
   onClick,
   href,
   target,
-  color1 = '#2563eb', // Default blue-600
+  color1 = 
+  // '#2563eb',
+  '#05304A',
+  //  '#40a0bf', // Default blue-600
   color2 = '#ffffff',
   animationTrigger = 'hover',
   ...props 

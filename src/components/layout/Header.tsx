@@ -35,7 +35,7 @@ export default function Header() {
       // Set timer to hide after user stops scrolling (e.g. 1.5 seconds)
       scrollTimeoutRef.current = setTimeout(() => {
         setIsVisible(false);
-      }, 500);
+      }, 2500);
     };
 
     window.addEventListener('scroll', handleScroll);
