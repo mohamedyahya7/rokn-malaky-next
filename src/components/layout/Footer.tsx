@@ -1,7 +1,8 @@
+import { IconType } from 'react-icons';
 import { FaEnvelope, FaPhone, FaFacebook, FaInstagram, FaTelegramPlane, FaTiktok, FaSnapchatGhost } from 'react-icons/fa';
 import { siteData } from '@/lib/data';
 
-const IconMap: Record<string, any> = {
+const IconMap: Record<string, IconType> = {
   facebook: FaFacebook,
   instagram: FaInstagram,
   telegram: FaTelegramPlane,
@@ -23,14 +24,20 @@ export default function Footer() {
           <h2 className="text-3xl md:text-4xl font-bold mb-8 relative z-10">تواصل معنا الآن</h2>
           
           <div className="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-16 mb-12 relative z-10">
-            <div className="flex items-center gap-3 text-lg md:text-xl font-medium bg-white/10 px-6 py-3 rounded-2xl backdrop-blur-sm">
-              <FaEnvelope className="text-[var(--accent)]" />
+            <a 
+              href={`mailto:${contact.email}`}
+              className="flex items-center gap-3 text-lg md:text-xl font-medium bg-white/10 px-6 py-3 rounded-2xl backdrop-blur-sm hover:bg-white/20 transition-all group"
+            >
+              <FaEnvelope className="text-(--accent) group-hover:scale-110 transition-transform" />
               <span>{contact.email}</span>
-            </div>
-            <div className="flex items-center gap-3 text-lg md:text-xl font-medium bg-white/10 px-6 py-3 rounded-2xl backdrop-blur-sm">
-              <FaPhone className="text-[var(--accent)]" />
-              <span dir="ltr">{contact.phone}</span>
-            </div>
+            </a>
+            <a 
+              href={`tel:+20${contact.phone}`}
+              className="flex items-center gap-3 text-lg md:text-xl font-medium bg-white/10 px-6 py-3 rounded-2xl backdrop-blur-sm hover:bg-white/20 transition-all group"
+            >
+              <FaPhone className="text-(--accent) group-hover:scale-110 transition-transform" />
+              <span dir="ltr">+20 {contact.phone}</span>
+            </a>
           </div>
 
           <div className="flex justify-center gap-4 relative z-10">

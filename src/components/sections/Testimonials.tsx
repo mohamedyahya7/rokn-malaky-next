@@ -71,11 +71,10 @@ const Testimonials = () => {
         {/* Section Header */}
         <div className="mb-16 text-center">
           <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-5xl">
-            ماذا يقول <span className="text-(--primary)">عملؤنا؟</span>
+            ماذا يقول <span className="text-(--primary)">عملاؤنا؟</span>
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-gray-600">
-            أكثر من 20 عاماً من الثقة والمصداقية في خدمتكم. هذه بعض شهادات الأشخاص الذين تشرفنا بالتعامل معهم.
-          </p>
+           هذه بعض تقييمات العملاء عن خدمات الركن الملكي لإلحاق العمالة المصرية للسعودية والخليج </p>
         </div>
 
         {/* Carousel Container */}
@@ -100,7 +99,7 @@ const Testimonials = () => {
               stopAutoplay();
               goToNext();
             }}
-            className="absolute -left-4 top-1/2 -translate-y-1/2 rounded-full bg-white p-3 shadow-lg hover:bg-gray-50 hidden md:block"
+            className="absolute -left-4 top-1/2 -translate-y-1/2 rounded-full bg-white p-3 shadow-lg hover:bg-gray-50 "
             aria-label="Next"
           >
             <ChevronLeft className="h-6 w-6 text-(--primary)" />
@@ -111,7 +110,7 @@ const Testimonials = () => {
               stopAutoplay();
               goToPrevious();
             }}
-            className="absolute -right-4 top-1/2 -translate-y-1/2 rounded-full bg-white p-3 shadow-lg hover:bg-gray-50 hidden md:block"
+            className="absolute -right-4 top-1/2 -translate-y-1/2 rounded-full bg-white p-3 shadow-lg hover:bg-gray-50 "
             aria-label="Previous"
           >
             <ChevronRight className="h-6 w-6 text-(--primary)" />

@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { User, Briefcase, Phone, Globe, FileText, Clock, ShieldCheck } from 'lucide-react';
-import { RequestData } from '../_utils/types';
-import { STATUS_CATEGORIES } from '../_utils/constants';
+import { RequestData } from '@/lib/track/types';
+import { STATUS_CATEGORIES } from '@/lib/track/constants';
 import { SidebarInfoItem } from './SidebarInfoItem';
 import { StatusBadge } from './StatusBadge';
 

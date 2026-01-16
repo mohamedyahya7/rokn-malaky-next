@@ -44,12 +44,12 @@ export default function Hero() {
         <div className="flex flex-col lg:flex-row items-center gap-12">
           {/* Main Content */}
           <div className="flex-1 text-right animate-slide-left">
-            <h1 className="text-6xl md:text-8xl font-black  text-white  mb-6 font-el-messiri leading-tight drop-shadow-2xl">
+            <h1 className="text-6xl md:text-8xl font-black  text-white  mb-6 leading-tight drop-shadow-2xl">
               <span style={{ animationDelay: '200ms' }}>
                 {hero.title.split('..')[0]}..
               </span> 
               <br />
-              <span className="text-[var(--primary)] drop-shadow-[10px_1px_15px_rgba(255,255,255,0.6)] font-cairo text-2xl md:text-3xl">
+              <span className="text-[var(--primary)] drop-shadow-[4px_3px_15px_rgba(255,255,255,0.6)] font-cairo text-2xl md:text-3xl">
                 {hero.title.split('..')[1]}
               </span>
             </h1>

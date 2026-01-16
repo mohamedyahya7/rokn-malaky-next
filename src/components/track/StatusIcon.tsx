@@ -1,6 +1,6 @@
 import React from 'react';
 import { AlertCircle, CheckCircle2, Clock } from 'lucide-react';
-import { STATUS_CATEGORIES } from '../_utils/constants';
+import { STATUS_CATEGORIES } from '@/lib/track/constants';
 
 interface StatusIconProps {
   status: string;

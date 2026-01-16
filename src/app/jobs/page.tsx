@@ -27,7 +27,7 @@ export default function JobsPage() {
           
           {/* Header Section */}
           <div className="text-center mb-16 space-y-4">
-            <h1 className="text-4xl md:text-6xl font-black text-(--primary) font-el-messiri">
+            <h1 className="text-4xl md:text-6xl font-black text-(--primary)">
               فرص العمل المتاحة
             </h1>
             <p className="text-xl text-slate-500 max-w-2xl mx-auto font-medium">

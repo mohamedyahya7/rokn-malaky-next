@@ -33,7 +33,7 @@ export default function JobsPromo() {
                 <Briefcase className="w-4 h-4" />
                 <span>فرص وظيفية مميزة</span>
               </div>
-              <h2 className="text-4xl md:text-5xl font-black text-(--primary) font-el-messiri leading-tight">
+              <h2 className="text-4xl md:text-5xl font-black text-(--primary) leading-tight">
                 أحدث الوظائف المتاحة
               </h2>
               <p className="text-xl text-slate-500 max-w-xl font-medium">

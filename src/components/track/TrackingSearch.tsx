@@ -12,7 +12,7 @@ export const TrackingSearch: React.FC<TrackingSearchProps> = ({ value, onChange,
   return (
     <div className="mb-10 text-center md:text-right flex flex-col md:flex-row md:items-end justify-between gap-6">
       <div className="space-y-2">
-        <h1 className="text-4xl md:text-5xl font-black text-(--primary) font-el-messiri text-right">
+        <h1 className="text-4xl md:text-5xl font-black text-(--primary) text-right">
           تتبع حالة الطلب
         </h1>
         <p className="text-slate-600 text-lg text-right">

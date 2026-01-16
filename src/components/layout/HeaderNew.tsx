@@ -17,7 +17,7 @@ export default function HeaderNew() {
     { name: 'الرئيسية', href: '/', id: 'hero', type: 'page' },
     { name: 'خدماتنا', href: '/#services', id: 'services', type: 'section' },
     { name: 'آراء العملاء', href: '/#testimonials', id: 'testimonials', type: 'section' },
-    { name: 'تتبع الطلب', href: '/track', id: 'track', type: 'page' },
+    { name: 'تتبع الطلب', href: '/#track', id: 'track', type: 'section' },
     { name: 'الوظائف', href: '/jobs', id: 'jobs', type: 'page' },
     { name: 'الأسئلة الشائعة', href: '/#faq', id: 'faq', type: 'section' },
     { name: 'شركاء النجاح', href: '/#clients', id: 'clients', type: 'section' },
@@ -103,6 +103,34 @@ export default function HeaderNew() {
     };
   }, [isHomePage]);
 
+  // Separate effect for hash scrolling
+  useEffect(() => {
+    if (isHomePage && typeof window !== 'undefined' && window.location.hash) {
+      const handleInitialHash = () => {
+        const hash = window.location.hash.substring(1);
+        const element = document.getElementById(hash);
+        if (element) {
+          // Extra timeout to ensure the browser's default scroll has finished
+          // and the DOM has fully rendered
+          setTimeout(() => {
+            const headerOffset = 100;
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: "smooth"
+            });
+            setActiveSection(hash);
+          }, 500);
+        }
+      };
+      
+      handleInitialHash();
+      window.addEventListener('hashchange', handleInitialHash);
+      return () => window.removeEventListener('hashchange', handleInitialHash);
+    }
+  }, [isHomePage]);
+
   const isActiveLink = (link: typeof navLinks[0]) => {
     if (isHomePage && activeSection === link.id) return true;
     
@@ -149,12 +177,26 @@ export default function HeaderNew() {
         }`}
       >
         <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4"  onClick={() => setIsMobileMenuOpen(true)}>
             <button 
-            className="md:hidden p-2 text-slate-800 hover:bg-white/10 rounded-lg transition-colors"
-            onClick={() => setIsMobileMenuOpen(true)}
-          >
-            <FaBars size={24} />
-          </button>
+              className="md:hidden p-2 text-slate-800 hover:bg-white/10 rounded-lg transition-colors"
+             
+            >
+              <FaBars size={24} />
+            </button>
+            
+            {/* Active Section Indicator for Mobile */}
+            <div className="md:hidden flex flex-col">
+              {/* <span className="text-[9px] text-slate-500 font-bold uppercase tracking-tighter leading-none text-right">أنت في</span> */}
+              <span className="text-sm font-black text-(--primary) leading-tight text-right">
+                {!isHomePage 
+                  ? (pathname?.startsWith('/jobs') ? 'الوظائف' : 'الرئيسية')
+                  : (navLinks.find(l => l.id === activeSection)?.name || (activeSection === 'contact' ? 'تواصل معنا' : 'الرئيسية'))
+                }
+              </span>
+            </div>
+          </div>
+
           <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
             <div className="relative w-12 h-12 md:w-14 md:h-14 overflow-hidden rounded-lg shadow-sm border border-white/20">
               <Image 
@@ -176,11 +218,11 @@ export default function HeaderNew() {
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link)}
                   className={`px-4 py-2 font-bold transition-all relative group ${
-                    active ? 'text-[var(--primary)]' : 'text-slate-700 hover:text-[var(--primary)]'
+                    active ? 'text-(--primary)' : 'text-slate-700 hover:text-(--primary)'
                   }`}
                 >
                   {link.name}
-                  <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-[var(--primary)] transition-all ${
+                  <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-(--primary) transition-all ${
                     active ? 'w-1/2' : 'w-0 group-hover:w-1/2'
                   }`}></span>
                 </Link>
@@ -192,8 +234,8 @@ export default function HeaderNew() {
               onClick={(e) => handleNavClick(e, { name: 'تواصل معنا', href: '/#contact', id: 'contact', type: 'section' })}
               className={`mr-4 px-6 py-2.5 rounded-xl font-bold shadow-lg transition-all hover:-translate-y-0.5 ${
                 isActiveLink({ name: 'تواصل معنا', href: '/#contact', id: 'contact', type: 'section' })
-                  ? 'bg-[var(--secondary)] text-white shadow-blue-500/40 ring-2 ring-[var(--primary)] ring-offset-2 scale-105'
-                  : 'bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] text-white shadow-blue-500/20 hover:shadow-blue-500/40'
+                  ? 'bg-(--secondary) text-white shadow-blue-500/40 ring-2 ring-(--primary) ring-offset-2 scale-105'
+                  : 'bg-gradient-to-r from-(--primary) to-(--secondary) text-white shadow-blue-500/20 hover:shadow-blue-500/40'
               }`}
             >
               تواصل معنا
@@ -217,7 +259,7 @@ export default function HeaderNew() {
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex justify-between items-center mb-12">
-            <span className="text-2xl font-black bg-gradient-to-r from-[var(--secondary)] to-[var(--primary)] bg-clip-text text-transparent">
+            <span className="text-2xl font-black bg-gradient-to-r from-(--secondary) to-(--primary) bg-clip-text text-transparent">
               الركن الملكي
             </span>
             <button 
@@ -228,7 +270,7 @@ export default function HeaderNew() {
             </button>
           </div>
 
-          <nav className="flex flex-col gap-6">
+          <nav className="flex flex-col gap-4">
             {navLinks.map((link, idx) => {
               const active = isActiveLink(link);
               return (
@@ -236,11 +278,16 @@ export default function HeaderNew() {
                   key={idx}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link)}
-                  className={`text-lg font-bold transition-all border-b border-slate-50 pb-4 ${
-                    active ? 'text-[var(--primary)] translate-x-2' : 'text-slate-700 hover:text-[var(--primary)] hover:translate-x-2'
+                  className={`relative text-lg font-bold transition-all px-4 py-3 rounded-xl flex items-center justify-between group ${
+                    active 
+                      ? 'bg-(--primary)/10 text-(--primary)' 
+                      : 'text-slate-700 hover:bg-slate-50'
                   }`}
                 >
-                  {link.name}
+                  <span>{link.name}</span>
+                  {active && (
+                    <span className="w-1.5 h-6 bg-(--primary) rounded-full animate-pulse"></span>
+                  )}
                 </Link>
               );
             })}
@@ -248,9 +295,9 @@ export default function HeaderNew() {
               href="/#contact"
               onClick={(e) => handleNavClick(e, { name: 'تواصل معنا', href: '/#contact', id: 'contact', type: 'section' })}
               className={`mt-6 px-8 py-4 rounded-xl font-bold text-center shadow-lg transition-all ${
-                isActiveLink({ name: 'تواصل معنا', href: '/#contact', id: 'contact', type: 'section' })
-                  ? 'bg-[var(--secondary)] text-white shadow-blue-500/40 scale-[1.02]'
-                  : 'bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] text-white shadow-blue-500/20 hover:scale-[1.02]'
+                activeSection === 'contact'
+                  ? 'bg-(--secondary) text-white shadow-blue-500/40 scale-[1.02]'
+                  : 'bg-gradient-to-r from-(--primary) to-(--secondary) text-white shadow-blue-500/20 hover:scale-[1.02]'
               }`}
             >
               تواصل معنا

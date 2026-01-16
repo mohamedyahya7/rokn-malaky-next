@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
-import { API_BASE_URL } from '../_utils/constants';
-import { RequestData } from '../_utils/types';
+import { API_BASE_URL } from '@/lib/track/constants';
+import { RequestData } from '@/lib/track/types';
 
 export const useTracking = () => {
   const [loading, setLoading] = useState(false);

@@ -2,7 +2,7 @@ import React from 'react';
 import { Eye } from 'lucide-react';
 import Image from 'next/image';
 import { StatusIcon } from './StatusIcon';
-import { STATUS_CATEGORIES } from '../_utils/constants';
+import { STATUS_CATEGORIES } from '@/lib/track/constants';
 
 interface StatusBadgeProps {
   label: string;

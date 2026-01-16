@@ -1,10 +1,10 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
-import { TrackingSearch } from '@/app/track/_components/TrackingSearch';
-import { TrackingResultView } from '@/app/track/_components/TrackingResultView';
-import { useTracking } from '@/app/track/_components/useTracking';
-import { RequestData } from '@/app/track/_utils/types';
+import { TrackingSearch } from '@/components/track/TrackingSearch';
+import { TrackingResultView } from '@/components/track/TrackingResultView';
+import { useTracking } from '@/components/track/useTracking';
+// import { RequestData } from '@/lib/track/types';
 import { Modal } from '@/components/ui/Modal';
 import { AlertCircle } from 'lucide-react';
 
@@ -21,13 +21,15 @@ export default function LandingTracking() {
   useEffect(() => {
     const codeFromUrl = searchParams.get('code');
     if (codeFromUrl && !loading) {
-      if (codeFromUrl !== (data as RequestData | null)?.code) {
-         fetchData(codeFromUrl).then((result) => {
-          if (result) setIsModalOpen(true);
-         });
+      if (searchCode !== codeFromUrl) {
+         setSearchCode(codeFromUrl);
       }
+      fetchData(codeFromUrl).then((result) => {
+        if (result) setIsModalOpen(true);
+      });
     }
-  }, [searchParams, fetchData, data, loading]); 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run once on mount/initial params check 
   // Intentional dependency simplified. Careful with fetchData dependency loop.
   // useTracking's fetchData is useCallback'd, so it's stable.
 
@@ -70,11 +72,18 @@ export default function LandingTracking() {
             loading={loading}
           />
           
-          {/* Inline Error Message */}
           {error && !isModalOpen && (
-            <div className="mt-6 flex items-center justify-center gap-3 text-red-500 bg-red-50 p-4 rounded-2xl animate-in fade-in slide-in-from-top-2">
-              <AlertCircle className="w-5 h-5" />
-              <p className="font-bold">{error}</p>
+            <div className={`mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 p-4 rounded-2xl border mb-2 ${
+              error.includes('خادم') || error.includes('error')
+                ? 'bg-red-50 text-red-600 border-red-100' 
+                : 'bg-amber-50 text-amber-700 border-amber-100'
+            } animate-in fade-in slide-in-from-top-2`}>
+              {error.includes('خادم') || error.includes('error') ? (
+                 <AlertCircle className="w-6 h-6 shrink-0" />
+              ) : (
+                 <AlertCircle className="w-6 h-6 shrink-0" />
+              )}
+              <p className="font-bold text-center">{error}</p>
             </div>
           )}
         </div>
